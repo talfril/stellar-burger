@@ -1,0 +1,111 @@
+Изначальная логика юзер редусера
+// import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+// import { TUser } from '@utils-types';
+// import {
+//   registerUserApi,
+//   loginUserApi,
+//   logoutApi,
+//   getUserApi,
+//   TLoginData,
+//   TRegisterData
+// } from '@api';
+// import { RootState } from 'src/services/store';
+
+// export const registerUserThunk = createAsyncThunk(
+//   'user/registerUser',
+//   async (userData: TRegisterData) => {
+//     const response = await registerUserApi(userData);
+//     return response;
+//   }
+// );
+
+// export const loginUserThunk = createAsyncThunk(
+//   'user/loginUser',
+//   async (loginData: TLoginData) => {
+//     const response = await loginUserApi(loginData);
+//     return response.user;
+//   }
+// );
+
+// export const registerAndLoginUserThunk = createAsyncThunk(
+//   'user/registerAndLoginUser',
+//   async (userData: TRegisterData) => {
+//     // Регистрируем пользователя
+//     const registerResponse = await registerUserApi(userData);
+
+//     // Если регистрация прошла успешно, входим в систему
+//     if (registerResponse.success) {
+//       const loginResponse = await loginUserApi({
+//         email: userData.email,
+//         password: userData.password
+//       });
+//       return loginResponse.user;
+//     } else {
+//       // Если регистрация не удалась, выбрасываем ошибку
+//       throw new Error('Registration failed');
+//     }
+//   }
+// );
+
+// export const logoutUserThunk = createAsyncThunk('user/logoutUser', async () => {
+//   await logoutApi();
+//   return null;
+// });
+
+// export const fetchUserThunk = createAsyncThunk('user/fetchUser', async () => {
+//   const response = await getUserApi();
+//   return response;
+// });
+
+// const initialState: {
+//   user: TUser | null;
+//   loading: boolean;
+//   error: string | null;
+// } = {
+//   user: null,
+//   loading: false,
+//   error: null
+// };
+
+// const userSlice = createSlice({
+//   name: 'user',
+//   initialState,
+//   reducers: {},
+//   extraReducers: (builder) => {
+//     builder.addCase(loginUserThunk.pending, (state) => {
+//       state.loading = true;
+//       state.error = null;
+//     });
+
+//     builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+//       state.loading = false;
+//       state.user = action.payload;
+//     });
+
+//     builder.addCase(loginUserThunk.rejected, (state, action) => {
+//       state.loading = false;
+//       state.error = String(action.error);
+//     });
+
+//     builder.addCase(registerAndLoginUserThunk.fulfilled, (state, action) => {
+//       state.loading = false;
+//       state.user = action.payload;
+//     });
+//     builder.addCase(registerAndLoginUserThunk.rejected, (state, action) => {
+//       state.loading = false;
+//       state.error = String(action.error);
+//     });
+//   }
+// });
+
+// export default userSlice.reducer;
+// // Селектор для получения состояния пользователя
+// export const selectUser = (state: RootState) => state.user.user;
+
+// // Селектор для получения состояния загрузки
+// export const selectLoading = (state: RootState) => state.user.loading;
+
+// // Селектор для получения состояния ошибки
+// export const selectError = (state: RootState) => state.user.error;
+
+// export const selectRegisteredUser = (state: RootState) => state.user.user;

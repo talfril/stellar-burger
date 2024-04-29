@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styles from './app-header.module.css';
+import { Link } from 'react-router-dom';
 import { TAppHeaderUIProps } from './type';
 import {
   BurgerIcon,
@@ -14,11 +15,15 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       <div className={styles.menu_part_left}>
         <>
           <BurgerIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2 mr-10'>Конструктор</p>
+          <Link to={{ pathname: `/` }} className={`${styles.link} ml-2 mr-10`}>
+            <p className={styles.text}>Конструктор</p>
+          </Link>
         </>
         <>
           <ListIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2'>Лента заказов</p>
+          <Link to={{ pathname: `/feed` }} className={`${styles.link} ml-2`}>
+            <p className={styles.text}>Лента заказов</p>
+          </Link>
         </>
       </div>
       <div className={styles.logo}>
@@ -26,9 +31,11 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       </div>
       <div className={styles.link_position_last}>
         <ProfileIcon type={'primary'} />
-        <p className='text text_type_main-default ml-2'>
-          {userName || 'Личный кабинет'}
-        </p>
+        <Link to={{ pathname: `/profile` }} className={`${styles.link} ml-2`}>
+          <p className={`${styles.text} ml-2`}>
+            {userName || 'Личный кабинет'}
+          </p>
+        </Link>
       </div>
     </nav>
   </header>
