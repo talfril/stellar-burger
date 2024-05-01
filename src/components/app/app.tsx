@@ -25,7 +25,7 @@ import { useEffect } from 'react';
 import { checkUserAuth } from '../../reducers/userReducer';
 
 const onCloseTemp = () => {
-  console.log('что-то закрылось');
+  log('что-то закрылось');
 };
 
 const App = () => {

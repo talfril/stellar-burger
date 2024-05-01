@@ -15,7 +15,8 @@ import {
   TLoginData,
   TRegisterData,
   updateUserApi,
-  refreshToken
+  refreshToken,
+  resetPasswordApi
 } from '@api';
 import { RootState } from '../services/store';
 import { setCookie, deleteCookie } from '../utils/cookie';
@@ -32,12 +33,14 @@ export interface TUserState {
   isAuth: boolean;
   data: UserDto | null;
   statusRequest: StatusRequest;
+  error?: string | null | undefined;
 }
 
 const initialState: TUserState = {
   isAuth: false,
   data: null,
-  statusRequest: StatusRequest.Idle
+  statusRequest: StatusRequest.Idle,
+  error: null
 };
 
 export const userSlice = createSlice({
@@ -69,6 +72,12 @@ export const userSlice = createSlice({
         state.isAuth = false;
         state.data = null;
         state.statusRequest = StatusRequest.Idle;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.error = action.error.message;
       })
       .addMatcher(isPending, (state) => {
         state.statusRequest = StatusRequest.Loading;
@@ -120,7 +129,6 @@ export const loginUser = createAsyncThunk<UserDto, TLoginData>(
       }
       setCookie('accessToken', data.accessToken);
       setCookie('refreshToken', data.refreshToken);
-      // localStorage.setItem('refreshToken', data.refreshToken);
       return data.user;
     } catch (error) {
       return rejectWithValue(error);
@@ -154,6 +162,17 @@ export const logoutUser = createAsyncThunk<void, void>(
     }
   }
 );
+
+export const resetPassword = createAsyncThunk<
+  void,
+  { password: string; token: string }
+>('user/resetPassword', async ({ password, token }, { rejectWithValue }) => {
+  try {
+    await resetPasswordApi({ password, token });
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
 
 export const { authCheck, logout } = userSlice.actions;
 

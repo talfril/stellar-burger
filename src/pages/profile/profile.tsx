@@ -6,8 +6,6 @@ import { getUser, checkUserAuth, updateUser } from '../../reducers/userReducer';
 export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
-  console.log('user', user);
-
   useEffect(() => {
     dispatch(checkUserAuth());
   }, []);
@@ -34,8 +32,6 @@ export const Profile: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(updateUser(formValue));
-    console.log('Данные пользователя обновлены, новые данные: ', formValue);
-    console.log(user);
   };
 
   const handleCancel = (e: SyntheticEvent) => {

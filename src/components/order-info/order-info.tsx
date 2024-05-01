@@ -20,8 +20,8 @@ export const OrderInfo: FC = () => {
   const orderRequest = useSelector(selectOrderRequest);
   const orderData = useSelector(selectOrderModalData);
   const ingredients = useSelector(selectIngredients);
-  console.log('В результате отображается', orderData?.number);
-  console.log('должен отображаться:', orderNumber);
+  // console.log('В результате отображается', orderData?.number);
+  // console.log('должен отображаться:', orderNumber);
 
   useEffect(() => {
     if (!orderData) {

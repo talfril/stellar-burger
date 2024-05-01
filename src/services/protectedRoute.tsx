@@ -13,11 +13,8 @@ export function ProtectedRoute({ children, onlyUnAuth }: ProtectedRouteProps) {
   const location = useLocation();
   const user = useSelector(getUser);
   const isAuthChecked = useSelector(getIsAuthChecked);
-  // console.log('isAuthChecked', isAuthChecked);
-  console.log('user', user);
 
   if (!isAuthChecked) {
-    console.log('пользователь не авторизован');
     return <Preloader />;
   }
 

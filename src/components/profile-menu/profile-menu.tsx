@@ -1,18 +1,24 @@
 import { FC } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileMenuUI } from '@ui';
-import { logoutUser, getIsAuthChecked } from '../../reducers/userReducer';
+import {
+  logoutUser,
+  getIsAuthChecked,
+  getUser
+} from '../../reducers/userReducer';
 import { useDispatch, useSelector } from '../../services/store';
 
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(getUser);
   const isAuthChecked = useSelector(getIsAuthChecked);
-  console.log('isAuthChecked', isAuthChecked);
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    navigate('/');
   };
 
-  return <ProfileMenuUI handleLogout={handleLogout} pathname={'/login'} />;
+  return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
 };

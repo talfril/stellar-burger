@@ -1,37 +1,48 @@
 import { FC, useMemo } from 'react';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { selectOrderModalData } from '../../reducers/orderReducer';
 import {
-  selectConstructorItems,
-  selectBurgerConstructor
-} from '../../reducers/constructorReducer';
-import {
-  selectOrderRequest,
-  selectOrderModalData
-} from '../../reducers/orderReducer';
+  addNewOrder,
+  selectNewOrderRequest,
+  selectNewOrderModalData
+} from '../../reducers/newOrderReducer';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../reducers/userReducer';
 
 export const BurgerConstructor: FC = () => {
-  // const constructorItems = useSelector(selectConstructorItems);
-  const burgerConstructor = useSelector(selectBurgerConstructor);
-  console.log('burgerConstructor', burgerConstructor);
-  const orderRequest = useSelector(selectOrderRequest);
-  const orderModalData = useSelector(selectOrderModalData);
-
-  const constructorItems = {
-    bun: {
-      name: 'Краторная булка N-200i',
-      price: 1255
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const constructorItems = useSelector((state) => state.constructorItems);
+  const orderRequest = useSelector(selectNewOrderRequest);
+  const orderModalData = useSelector(selectNewOrderModalData);
+  const user = useSelector(getUser);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
-  };
-  const closeOrderModal = () => {};
+    if (!constructorItems || orderRequest) {
+      return;
+    } else {
+      const prepareConstructorItems = (constructorItems: any) => {
+        const bunId = constructorItems.bun._id;
+        const ingredientIds = constructorItems.ingredients.map(
+          (ingredient: any) => ingredient._id
+        );
+        const idsArray = [bunId, ...ingredientIds, bunId];
+        return idsArray;
+      };
 
-  console.log('constructorItems', constructorItems);
+      const ingredientIds = prepareConstructorItems(constructorItems);
+
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+      dispatch(addNewOrder(ingredientIds));
+    }
+  };
+
+  const closeOrderModal = () => {};
 
   const price = useMemo(
     () =>
