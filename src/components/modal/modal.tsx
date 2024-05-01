@@ -2,12 +2,14 @@ import { FC, memo, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { TModalProps } from './type';
 import { ModalUI } from '@ui';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const modalRoot = document.getElementById('modals');
 
 export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
   const navigate = useNavigate();
+  const params = useParams<{ number: string }>();
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -27,7 +29,10 @@ export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
   };
 
   return ReactDOM.createPortal(
-    <ModalUI title={title} onClose={handleClose}>
+    <ModalUI
+      title={params.number ? '#0' + params.number : title}
+      onClose={handleClose}
+    >
       {children}
     </ModalUI>,
     modalRoot as HTMLDivElement
