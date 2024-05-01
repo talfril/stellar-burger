@@ -3,14 +3,9 @@ import { Feed } from '@pages';
 import { NotFound404 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from '../../services/protectedRoute';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { AppHeader } from '@components';
 import { Login } from '@pages';
 import { Profile } from '@pages';
@@ -22,11 +17,9 @@ import { Modal } from '@components';
 import { OrderInfo } from '@components';
 import { IngredientDetails } from '@components';
 import { useEffect } from 'react';
-import { checkUserAuth } from '../../reducers/userReducer';
+import { checkUserAuth } from '../../services/reducers/userReducer';
 
-const onCloseTemp = () => {
-  log('что-то закрылось');
-};
+const onCloseTemp = () => {};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -94,10 +87,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal
-                title={'Место для заголовка "#0+номер заказа"'}
-                onClose={onCloseTemp}
-              >
+              <Modal title={'Детали заказа'} onClose={onCloseTemp}>
                 <OrderInfo />
               </Modal>
             }
@@ -111,10 +101,10 @@ const App = () => {
             }
           />
           <Route
-            path='/profile/orders'
+            path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='title' onClose={onCloseTemp}>
+                <Modal title='Детали заказа' onClose={onCloseTemp}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

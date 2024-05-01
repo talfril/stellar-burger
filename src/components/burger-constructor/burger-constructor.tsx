@@ -1,15 +1,15 @@
 import { FC, useMemo } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
-import { TConstructorIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { selectOrderModalData } from '../../reducers/orderReducer';
+import { resetConstructorItems } from '../../services/reducers/constructorReducer';
 import {
   addNewOrder,
   selectNewOrderRequest,
   selectNewOrderModalData
-} from '../../reducers/newOrderReducer';
+} from '../../services/reducers/newOrderReducer';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../reducers/userReducer';
+import { getUser } from '../../services/reducers/userReducer';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const BurgerConstructor: FC = () => {
       const prepareConstructorItems = (constructorItems: any) => {
         const bunId = constructorItems.bun._id;
         const ingredientIds = constructorItems.ingredients.map(
-          (ingredient: any) => ingredient._id
+          (ingredient: TIngredient) => ingredient._id
         );
         const idsArray = [bunId, ...ingredientIds, bunId];
         return idsArray;
@@ -38,7 +38,9 @@ export const BurgerConstructor: FC = () => {
         navigate('/login');
         return;
       }
-      dispatch(addNewOrder(ingredientIds));
+      dispatch(addNewOrder(ingredientIds)).then((response) => {
+        dispatch(resetConstructorItems());
+      });
     }
   };
 

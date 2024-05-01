@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from './store';
-import { getUser, getIsAuthChecked } from '../reducers/userReducer';
+import { getUser, getIsAuthChecked } from './reducers/userReducer';
 import { Preloader } from '@ui';
 
 type ProtectedRouteProps = {

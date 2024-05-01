@@ -3,25 +3,19 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { useParams } from 'react-router-dom';
 import { TIngredient } from '@utils-types';
-import {
-  fetchIngredients,
-  selectIngredients
-} from '../../reducers/ingredientsReducer';
+import { selectIngredients } from '../../services/reducers/ingredientsReducer';
 import {
   selectOrderRequest,
   selectOrderModalData,
   getOrderData
-} from '../../reducers/orderReducer';
+} from '../../services/reducers/orderReducer';
 import { useSelector, useDispatch } from '../../services/store';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   const { number: orderNumber } = useParams<{ number: string }>();
-  const orderRequest = useSelector(selectOrderRequest);
   const orderData = useSelector(selectOrderModalData);
   const ingredients = useSelector(selectIngredients);
-  // console.log('В результате отображается', orderData?.number);
-  // console.log('должен отображаться:', orderNumber);
 
   useEffect(() => {
     if (!orderData) {

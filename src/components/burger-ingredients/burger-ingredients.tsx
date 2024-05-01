@@ -6,7 +6,7 @@ import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import {
   fetchIngredients,
   selectIngredients
-} from '../../reducers/ingredientsReducer';
+} from '../../services/reducers/ingredientsReducer';
 
 export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();

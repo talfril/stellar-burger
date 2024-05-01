@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../services/store';
+import { RootState } from '../store';
 import { TIngredient, TOrder } from '@utils-types';
 import { orderBurgerApi } from '@api';
 
@@ -24,7 +24,7 @@ type NewOrderAPIResponse = {
 
 export const addNewOrder = createAsyncThunk<NewOrderAPIResponse, string[]>(
   'newOrder/createNewOrder',
-  async (preparedData, { dispatch, getState }) => {
+  async (preparedData, { dispatch }) => {
     try {
       dispatch(setOrderRequest(true));
       const newOrder = await orderBurgerApi(preparedData);
@@ -52,7 +52,7 @@ export const newOrderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addNewOrder.fulfilled, (state, action) => {
-      state.selectedIngredients = [];
+      state.orderModalData = action.payload.order;
       state.orderRequest = false;
     });
   }

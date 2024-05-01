@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { loginUser } from '../../reducers/userReducer';
+import { loginUser } from '../../services/reducers/userReducer';
 import { useDispatch } from '../../services/store';
 
 export const Login: FC = () => {

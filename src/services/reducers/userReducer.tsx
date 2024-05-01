@@ -1,12 +1,10 @@
 import {
   createSlice,
   createAsyncThunk,
-  PayloadAction,
-  SerializedError,
   isPending,
   isRejected
 } from '@reduxjs/toolkit';
-import { TUser, StatusRequest } from '@utils-types';
+import { StatusRequest } from '@utils-types';
 import {
   registerUserApi,
   loginUserApi,
@@ -18,8 +16,8 @@ import {
   refreshToken,
   resetPasswordApi
 } from '@api';
-import { RootState } from '../services/store';
-import { setCookie, deleteCookie } from '../utils/cookie';
+import { RootState } from '../store';
+import { setCookie, deleteCookie } from '../../utils/cookie';
 import {} from '@reduxjs/toolkit';
 
 export const sliceName = 'user';

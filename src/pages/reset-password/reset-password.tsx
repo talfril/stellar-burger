@@ -1,7 +1,6 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../../reducers/userReducer';
-
+import { resetPassword } from '../../services/reducers/userReducer';
 import { ResetPasswordUI } from '@ui-pages';
 
 export const ResetPassword: FC = () => {

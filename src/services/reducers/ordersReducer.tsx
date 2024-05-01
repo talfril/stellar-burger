@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
-import { RootState } from '../services/store';
+import { RootState } from '../store';
 
 interface OrdersState {
   orders: TOrder[];
