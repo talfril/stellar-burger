@@ -1,3 +1,5 @@
+// newOrderReducer.ts
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { TIngredient, TOrder } from '@utils-types';
@@ -48,6 +50,9 @@ export const newOrderSlice = createSlice({
     },
     setOrderRequest(state, action) {
       state.orderRequest = action.payload;
+    },
+    setOrderModalData(state, action) {
+      state.orderModalData = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -58,7 +63,8 @@ export const newOrderSlice = createSlice({
   }
 });
 
-export const { resetOrder, setOrderRequest } = newOrderSlice.actions;
+export const { resetOrder, setOrderRequest, setOrderModalData } =
+  newOrderSlice.actions;
 
 export const selectIngredients = (state: RootState) =>
   state.newOrder.selectedIngredients;

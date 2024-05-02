@@ -12,10 +12,6 @@ export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(selectIngredients);
 
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
-
   const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
   const mains = ingredients.filter((ingredient) => ingredient.type === 'main');
   const sauces = ingredients.filter(

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getFeedsApi } from '@api';
+import { getFeedsApi, getOrdersApi } from '@api';
 import { RootState } from '../store';
 
 interface OrdersState {
@@ -16,11 +16,23 @@ export const fetchOrdersList = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getFeedsApi();
-
       return response;
     } catch (error) {
       console.error('ошибка получения списка заказов', error);
       return rejectWithValue('ошибка получения списка заказов');
+    }
+  }
+);
+
+export const fetchCurrentUserOrders = createAsyncThunk(
+  'orders/fetchCurrentUserOrders',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getOrdersApi();
+      return response;
+    } catch (error) {
+      console.error('ошибка получения заказов текущего пользователя', error);
+      return rejectWithValue('ошибка получения заказов текущего пользователя');
     }
   }
 );
@@ -60,6 +72,19 @@ const ordersSlice = createSlice({
         state.response = action.payload;
       })
       .addCase(fetchOrdersList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = String(action.error);
+      })
+      .addCase(fetchCurrentUserOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUserOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+        state.response = action.payload;
+      })
+      .addCase(fetchCurrentUserOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = String(action.error);
       });
