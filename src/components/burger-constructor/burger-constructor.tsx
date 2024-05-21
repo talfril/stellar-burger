@@ -7,7 +7,7 @@ import {
   addNewOrder,
   resetOrder,
   setOrderRequest,
-  setOrderModalData, // Добавлен новый экшен
+  setOrderModalData,
   selectNewOrderRequest,
   selectNewOrderModalData
 } from '../../services/reducers/newOrderReducer';
@@ -52,6 +52,7 @@ export const BurgerConstructor: FC = () => {
     dispatch(resetOrder());
     dispatch(setOrderRequest(false));
   };
+
   const price = useMemo(
     () =>
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +

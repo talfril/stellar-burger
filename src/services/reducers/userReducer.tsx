@@ -13,7 +13,6 @@ import {
   TLoginData,
   TRegisterData,
   updateUserApi,
-  refreshToken,
   resetPasswordApi
 } from '@api';
 import { RootState } from '../store';
@@ -50,6 +49,7 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.isAuth = false;
+      state.data = null;
     }
   },
   extraReducers: (builder) => {
@@ -61,6 +61,7 @@ export const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.statusRequest = StatusRequest.Success;
+        state.isAuth = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.data = action.payload;

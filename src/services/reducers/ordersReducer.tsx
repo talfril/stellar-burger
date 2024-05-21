@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi, getOrdersApi } from '@api';
 import { RootState } from '../store';
 
-interface OrdersState {
+export interface OrdersState {
   orders: TOrder[];
   loading: boolean;
   error: string | null;
@@ -43,7 +43,7 @@ const initialState: OrdersState = {
   error: null
 };
 
-const ordersSlice = createSlice({
+export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {

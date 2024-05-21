@@ -1,11 +1,10 @@
-// newOrderReducer.ts
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { TIngredient, TOrder } from '@utils-types';
 import { orderBurgerApi } from '@api';
+import { getCookie } from 'src/utils/cookie';
 
-interface NewOrderState {
+export interface NewOrderState {
   bun: TIngredient | null;
   selectedIngredients: TIngredient[];
   orderRequest: boolean;
@@ -30,6 +29,7 @@ export const addNewOrder = createAsyncThunk<NewOrderAPIResponse, string[]>(
     try {
       dispatch(setOrderRequest(true));
       const newOrder = await orderBurgerApi(preparedData);
+      console.log(newOrder);
       return newOrder;
     } catch (error) {
       throw error;
@@ -43,10 +43,10 @@ export const newOrderSlice = createSlice({
   name: 'newOrder',
   initialState,
   reducers: {
-    addNewOrder() {},
     resetOrder(state) {
       state.bun = null;
       state.selectedIngredients = [];
+      state.orderModalData = null;
     },
     setOrderRequest(state, action) {
       state.orderRequest = action.payload;

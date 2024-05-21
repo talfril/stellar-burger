@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient } from '@utils-types';
 import { TIngredient } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
-interface ConstructorState {
+export interface ConstructorState {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
 }
@@ -25,7 +26,7 @@ export const constructorSlice = createSlice({
         }
       },
       prepare: (ingredient: TIngredient) => ({
-        payload: { ...ingredient, id: crypto.randomUUID() }
+        payload: { ...ingredient, id: uuidv4() }
       })
     },
     removeFromConstructor: (state, action: PayloadAction<string>) => {
@@ -35,6 +36,23 @@ export const constructorSlice = createSlice({
 
       if (index !== -1) {
         state.ingredients.splice(index, 1);
+      }
+    },
+    changeIngredientsPlaces: (
+      state,
+      action: PayloadAction<{ index: number; direction: 'up' | 'down' }>
+    ) => {
+      const { index, direction } = action.payload;
+      if (direction === 'up' && index > 0) {
+        [state.ingredients[index], state.ingredients[index - 1]] = [
+          state.ingredients[index - 1],
+          state.ingredients[index]
+        ];
+      } else if (direction === 'down' && index < state.ingredients.length - 1) {
+        [state.ingredients[index], state.ingredients[index + 1]] = [
+          state.ingredients[index + 1],
+          state.ingredients[index]
+        ];
       }
     },
     resetConstructorItems: (state) => {
@@ -52,5 +70,6 @@ export const selectorConstructor = constructorSlice.selectors;
 export const {
   addToConstructor,
   removeFromConstructor,
+  changeIngredientsPlaces,
   resetConstructorItems
 } = constructorSlice.actions;

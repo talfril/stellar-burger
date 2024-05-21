@@ -3,7 +3,7 @@ import { RootState } from '../store';
 import { TOrder } from '@utils-types';
 import { getOrderByNumberApi } from '@api';
 
-interface OrderState {
+export interface OrderState {
   orderRequest: boolean;
   orderModalData: TOrder | null;
 }
@@ -25,7 +25,7 @@ export const getOrderData = createAsyncThunk<TOrder, number>(
   }
 );
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
