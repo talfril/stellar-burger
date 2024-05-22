@@ -1,24 +1,24 @@
-{
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint", "prettier"],
-  "extends": ["prettier"],
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "rules": {
-    "prettier/prettier": [
-      "warn",
-      {
-        "usePrettierrc": true
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "comma-dangle": "off",
-    "use-isnan": ["error", { "enforceForSwitchCase": true }],
+    {
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["react", "@typescript-eslint", "prettier"],
+      "extends": ["prettier"],
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+        }
+      },
+      "rules": {
+        "prettier/prettier": [
+          "warn",
+          {
+            "usePrettierrc": true
+          }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "comma-dangle": "off",
+        "use-isnan": ["error", { "enforceForSwitchCase": true }],
     "react/void-dom-elements-no-children": "warn",
     "react/no-unsafe": "warn",
     "react/no-unused-state": "warn",
