@@ -29,7 +29,6 @@ export const addNewOrder = createAsyncThunk<NewOrderAPIResponse, string[]>(
     try {
       dispatch(setOrderRequest(true));
       const newOrder = await orderBurgerApi(preparedData);
-      console.log(newOrder);
       return newOrder;
     } catch (error) {
       throw error;

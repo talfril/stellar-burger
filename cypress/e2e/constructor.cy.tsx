@@ -15,13 +15,32 @@ describe('Проверка работы функций страницы конс
     describe('Проверка корректной работы модального окна ингредиента', () => {
       it('Открывается модальное окно с подробной информацией об ингредиенте, на который нажали', () => {
         cy.contains('Детали ингредиента').should('not.exist');
-        cy.contains('Ингредиент 4').click();
+        cy.contains('Ингредиент 5').click();
         cy.contains('Детали ингредиента').should('exist');
-        cy.get('#modals').contains('Ингредиент 4').should('exist');
+        cy.get('#modals').contains('Ингредиент 5').should('exist');
       });
-      // it('Модальное окно ингредиента закрывается при нажатии на иконку "крестик"', () => {});
-      // it('Модальное окно ингредиента закрывается при нажатии на оверлей', () => {});
-      // it('Модальное окно ингредиента закрывается при нажатии на `ESC`', () => {});
+
+      it('Модальное окно ингредиента закрывается при нажатии на иконку "крестик"', () => {
+        cy.contains('Ингредиент 3').click();
+        cy.contains('Детали ингредиента').should('exist');
+        cy.get('[data-cy=modal-close]').should('exist');
+        cy.get('[data-cy=modal-close]').click();
+        cy.contains('Детали ингредиента').should('not.exist');
+      });
+
+      it('Модальное окно ингредиента закрывается при нажатии на оверлей', () => {
+        cy.contains('Ингредиент 8').click();
+        cy.contains('Детали ингредиента').should('exist');
+        cy.get('[data-cy=modal-overlay]').click({ force: true });
+        cy.contains('Детали ингредиента').should('not.exist');
+      });
+
+      it('Модальное окно ингредиента закрывается при нажатии на `ESC`', () => {
+        cy.contains('Ингредиент 6').click();
+        cy.contains('Детали ингредиента').should('exist');
+        cy.get('body').type('{esc}');
+        cy.contains('Детали ингредиента').should('not.exist');
+      });
     });
 
     it('Есть возможность добавить в заказ булку', () => {
@@ -46,20 +65,54 @@ describe('Проверка работы функций страницы конс
     });
   });
 
-  // describe('Проверка корректной работы создания заказа', () => {
-  //   afterEach(function () {
-  //     cy.clearLocalStorage;
-  //     cy.clearAllCookies;
-  //   });
+  describe('Проверка корректной работы создания заказа', () => {
+    beforeEach(function () {
+      cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
+      cy.intercept('POST', 'api/orders', { fixture: 'new_order.json' }).as(
+        'newOrder'
+      );
 
-  //   it('Происходит сборка бургера', () => {});
+      window.localStorage.setItem(
+        'refreshToken',
+        JSON.stringify('test-refreshToken')
+      );
+      cy.setCookie('accessToken', 'test-accessToken');
+    });
 
-  //   it('Вызывается клик по кнопке «Оформить заказ»', () => {});
+    afterEach(function () {
+      cy.clearLocalStorage();
+      cy.clearAllCookies();
+    });
 
-  //   it('Проверяется, что модальное окно открылось и номер заказа верный', () => {});
+    it('Проверка отправки заказа и последующего получения модального окна с деталями заказа', () => {
+      //Происходит сборка бургера
+      cy.get('[data-cy=bun-ingredients]').contains('Добавить').click();
+      cy.get('[data-cy=mains-ingredients]').contains('Добавить').click();
+      cy.get('[data-cy=sauces-ingredients]').contains('Добавить').click();
 
-  //   it('Закрывается модальное окно и проверяется успешность закрытия', () => {});
+      //Происходит отправка заказа
+      cy.contains('Оформить заказ').click();
+      cy.wait('@newOrder')
+        .its('request.body')
+        .should('deep.equal', { ingredients: ['1', '2', '4', '1'] });
 
-  //   it('Проверяется, что конструктор пуст', () => {});
-  // });
+      //Проверяется, что модальное окно открылось и номер заказа верный
+      cy.contains('идентификатор заказа').should('exist');
+      cy.get('[data-cy=order-number]').contains('101010').should('exist');
+
+      //Закрывается модальное окно и проверяется успешность закрытия
+      cy.get('[data-cy=modal-close]').click();
+      cy.get('[data-cy=order-number]').should('not.exist');
+
+      //Проверяется, что конструктор пуст
+      cy.get('[data-cy=constructor-bun-1]').should('not.exist');
+      cy.get('[data-cy=constructor-bun-2]').should('not.exist');
+      cy.get('[data-cy=constructor-ingredients]')
+        .contains('Ингредиент 2')
+        .should('not.exist');
+      cy.get('[data-cy=constructor-ingredients]')
+        .contains('Ингредиент 4')
+        .should('not.exist');
+    });
+  });
 });
