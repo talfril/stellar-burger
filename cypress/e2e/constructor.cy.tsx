@@ -1,6 +1,14 @@
+const testUrl = '/';
+const buns = '[data-cy=bun-ingredients]';
+const mains = '[data-cy=mains-ingredients]';
+const closeButton = '[data-cy=modal-close]';
+const constructorIngredients = '[data-cy=constructor-ingredients]';
+const topBun = '[data-cy=constructor-bun-1]';
+const bottomBun = '[data-cy=constructor-bun-2]';
+
 describe('проверяем доступность приложения', function () {
   it('сервис должен быть доступен по адресу localhost:4000', () => {
-    cy.visit('http://localhost:4000/');
+    cy.visit(testUrl);
   });
 });
 
@@ -8,7 +16,7 @@ describe('Проверка работы функций страницы конс
   beforeEach(function () {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000/');
+    cy.visit(testUrl);
   });
 
   describe('Проверка корректной работы ингредиентов в конструкторе', () => {
@@ -23,8 +31,8 @@ describe('Проверка работы функций страницы конс
       it('Модальное окно ингредиента закрывается при нажатии на иконку "крестик"', () => {
         cy.contains('Ингредиент 3').click();
         cy.contains('Детали ингредиента').should('exist');
-        cy.get('[data-cy=modal-close]').should('exist');
-        cy.get('[data-cy=modal-close]').click();
+        cy.get(closeButton).should('exist');
+        cy.get(closeButton).click();
         cy.contains('Детали ингредиента').should('not.exist');
       });
 
@@ -44,24 +52,16 @@ describe('Проверка работы функций страницы конс
     });
 
     it('Есть возможность добавить в заказ булку', () => {
-      cy.get('[data-cy=bun-ingredients]').contains('Добавить').click();
-      cy.get('[data-cy=constructor-bun-1]')
-        .contains('Ингредиент 1')
-        .should('exist');
-      cy.get('[data-cy=constructor-bun-2]')
-        .contains('Ингредиент 1')
-        .should('exist');
+      cy.get(buns).contains('Добавить').click();
+      cy.get(topBun).contains('Ингредиент 1').should('exist');
+      cy.get(bottomBun).contains('Ингредиент 1').should('exist');
     });
 
     it('Есть возможность добавить в заказ ингредиент', () => {
-      cy.get('[data-cy=mains-ingredients]').contains('Добавить').click();
-      cy.get('[data-cy=constructor-ingredients]')
-        .contains('Ингредиент 2')
-        .should('exist');
+      cy.get(mains).contains('Добавить').click();
+      cy.get(constructorIngredients).contains('Ингредиент 2').should('exist');
       cy.get('[data-cy=sauces-ingredients]').contains('Добавить').click();
-      cy.get('[data-cy=constructor-ingredients]')
-        .contains('Ингредиент 4')
-        .should('exist');
+      cy.get(constructorIngredients).contains('Ингредиент 4').should('exist');
     });
   });
 
@@ -86,8 +86,8 @@ describe('Проверка работы функций страницы конс
 
     it('Проверка отправки заказа и последующего получения модального окна с деталями заказа', () => {
       //Происходит сборка бургера
-      cy.get('[data-cy=bun-ingredients]').contains('Добавить').click();
-      cy.get('[data-cy=mains-ingredients]').contains('Добавить').click();
+      cy.get(buns).contains('Добавить').click();
+      cy.get(mains).contains('Добавить').click();
       cy.get('[data-cy=sauces-ingredients]').contains('Добавить').click();
 
       //Происходит отправка заказа
@@ -101,16 +101,16 @@ describe('Проверка работы функций страницы конс
       cy.get('[data-cy=order-number]').contains('101010').should('exist');
 
       //Закрывается модальное окно и проверяется успешность закрытия
-      cy.get('[data-cy=modal-close]').click();
+      cy.get(closeButton).click();
       cy.get('[data-cy=order-number]').should('not.exist');
 
       //Проверяется, что конструктор пуст
-      cy.get('[data-cy=constructor-bun-1]').should('not.exist');
-      cy.get('[data-cy=constructor-bun-2]').should('not.exist');
-      cy.get('[data-cy=constructor-ingredients]')
+      cy.get(topBun).should('not.exist');
+      cy.get(bottomBun).should('not.exist');
+      cy.get(constructorIngredients)
         .contains('Ингредиент 2')
         .should('not.exist');
-      cy.get('[data-cy=constructor-ingredients]')
+      cy.get(constructorIngredients)
         .contains('Ингредиент 4')
         .should('not.exist');
     });

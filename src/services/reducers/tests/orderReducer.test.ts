@@ -1,10 +1,10 @@
 import { expect, test } from '@jest/globals';
 import {
   orderSlice,
-  OrderState,
   setOrderRequest,
   setOrderModalData,
-  getOrderData
+  getOrderData,
+  initialState
 } from '../orderReducer';
 import { testOrderModalData } from './forTestData';
 
@@ -12,11 +12,6 @@ describe('тестируем orderReducer', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  const initialState: OrderState = {
-    orderRequest: false,
-    orderModalData: null
-  };
 
   test('Успешно отправлен запрос на получение данных заказа', () => {
     const action = setOrderRequest(true);

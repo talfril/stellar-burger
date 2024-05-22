@@ -1,10 +1,10 @@
 import { expect, test } from '@jest/globals';
 import {
-  IngredientsState,
   ingredientsSlice,
   getIngredientsFailure,
   getIngredientsStart,
-  getIngredientsSuccess
+  getIngredientsSuccess,
+  initialState
 } from '../ingredientsReducer';
 import { testIngredientsList } from './forTestData';
 
@@ -12,12 +12,6 @@ describe('тесты редьюсера ingredients', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  const initialState: IngredientsState = {
-    ingredients: [],
-    loading: false,
-    error: null
-  };
 
   const testError = 'Ошибка получения списка ингредиентов';
 

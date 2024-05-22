@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { ordersSlice, OrdersState } from '../ordersReducer';
+import { ordersSlice, initialState } from '../ordersReducer';
 import { testOrdersList } from './forTestData';
 
 describe('тестируем ordersReducer', () => {
@@ -8,12 +8,6 @@ describe('тестируем ordersReducer', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  const initialState: OrdersState = {
-    orders: [],
-    loading: false,
-    error: null
-  };
 
   test('Успешно отправлен запрос на получение данных заказа', () => {
     const expectedState = {

@@ -3,7 +3,8 @@ import {
   addToConstructor,
   removeFromConstructor,
   ConstructorState,
-  changeIngredientsPlaces
+  changeIngredientsPlaces,
+  initialState
 } from '../constructorReducer';
 import { expect, test } from '@jest/globals';
 import { testIngredientsWithId, testIngredientsWithoutId } from './forTestData';
@@ -16,11 +17,6 @@ describe('тесты редьюсера слайса constructor', () => {
   });
 
   test('обработка экшена добавления ингредиента', () => {
-    const initialState: ConstructorState = {
-      bun: null,
-      ingredients: []
-    };
-
     const testStateWithBun = reducer(
       initialState,
       addToConstructor(testIngredientsWithoutId[0])
@@ -41,16 +37,16 @@ describe('тесты редьюсера слайса constructor', () => {
   });
 
   test('обработка экшена удаления ингредиента', () => {
-    const initialState: ConstructorState = {
+    const beforeTestState: ConstructorState = {
       bun: testIngredientsWithId[0],
       ingredients: [testIngredientsWithId[1], testIngredientsWithId[2]]
     };
     const testStateDelete = reducer(
-      initialState,
+      beforeTestState,
       removeFromConstructor(testIngredientsWithId[1]._id)
     );
     expect(testStateDelete.ingredients).toHaveLength(1);
-    expect(testStateDelete.bun).toEqual(initialState.bun);
+    expect(testStateDelete.bun).toEqual(beforeTestState.bun);
   });
 
   test('обработка экшена изменения порядка ингредиентов', () => {
@@ -59,13 +55,13 @@ describe('тесты редьюсера слайса constructor', () => {
       ingredients: [testIngredientsWithId[2], testIngredientsWithId[1]]
     };
 
-    const initialState: ConstructorState = {
+    const beforeTestState: ConstructorState = {
       bun: testIngredientsWithId[0],
       ingredients: [testIngredientsWithId[1], testIngredientsWithId[2]]
     };
 
     const testState = reducer(
-      initialState,
+      beforeTestState,
       changeIngredientsPlaces({ index: 1, direction: 'up' })
     );
 

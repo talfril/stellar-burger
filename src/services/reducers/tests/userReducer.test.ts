@@ -3,7 +3,8 @@ import {
   userSlice,
   TUserState,
   registerUser,
-  resetPassword
+  resetPassword,
+  initialState
 } from '../userReducer';
 import { StatusRequest } from '@utils-types';
 import { testUserData, testRegisterData } from './forTestData';
@@ -14,13 +15,6 @@ describe('тестируем userReducer', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  const initialState: TUserState = {
-    isAuth: false,
-    data: null,
-    statusRequest: StatusRequest.Idle,
-    error: null
-  };
 
   const initialStateLoggedUser: TUserState = {
     isAuth: true,

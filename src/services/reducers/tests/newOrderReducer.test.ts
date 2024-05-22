@@ -1,11 +1,11 @@
 import { expect, test } from '@jest/globals';
 import {
-  NewOrderState,
   newOrderSlice,
   resetOrder,
   setOrderRequest,
   setOrderModalData,
-  addNewOrder
+  addNewOrder,
+  initialState
 } from '../newOrderReducer';
 import { testOrderModalData, testOrderState } from './forTestData';
 
@@ -13,13 +13,6 @@ describe('тесты редьюсера NewOrder', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  const initialState: NewOrderState = {
-    bun: null,
-    selectedIngredients: [],
-    orderRequest: false,
-    orderModalData: null
-  };
 
   test('Данные заказа очищаются при запросе на очистку данных', () => {
     const action = resetOrder();

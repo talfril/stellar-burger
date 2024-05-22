@@ -11,7 +11,7 @@ export interface NewOrderState {
   orderModalData: TOrder | null;
 }
 
-const initialState: NewOrderState = {
+export const initialState: NewOrderState = {
   bun: null,
   selectedIngredients: [],
   orderRequest: false,

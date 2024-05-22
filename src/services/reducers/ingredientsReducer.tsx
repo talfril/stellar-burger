@@ -23,7 +23,7 @@ export const fetchIngredients = createAsyncThunk(
   }
 );
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   ingredients: [],
   loading: false,
   error: null
