@@ -1,1 +1,1 @@
-Демонстрационная версия: https://stellar-burger-alpha.vercel.app/
+Демонстрационная версия: https://talfril.github.io/stellar-burger/
