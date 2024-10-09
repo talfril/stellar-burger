@@ -38,7 +38,7 @@ const App = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/stellar-burger' element={<ConstructorPage />} />
+        <Route path='/' element={<ConstructorPage />} />
         <Route
           path='/profile'
           element={
