@@ -19,7 +19,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
           <>
             <BurgerIcon type={'primary'} />
             <Link
-              to={{ pathname: '/' }}
+              to={{ pathname: '/stellar-burger' }}
               className={`${styles.link}  ${location.pathname === '/' ? '' : styles.link_active}`}
             >
               <p className='text text_type_main-default ml-2 mr-10'>
