@@ -1,1 +1,1 @@
-Демонстрационная версия: 
+Демонстрационная версия: https://stellar-burger-alpha.vercel.app/
